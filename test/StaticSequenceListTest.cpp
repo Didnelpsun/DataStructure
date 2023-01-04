@@ -37,7 +37,8 @@ void Implement() {
     PrintStaticSequenceList(list);
 //    Print(GetMaxStaticSequenceList(list));
 //    ReverseStaticSequenceList(&list);
-    DeleteElemStaticSequenceList(&list,2);
+//    DeleteElemStaticSequenceList(&list,3);
+    RotateStaticSequenceList(&list,-2);
     PrintStaticSequenceList(list);
 }
 

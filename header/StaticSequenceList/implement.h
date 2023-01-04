@@ -29,24 +29,38 @@ void ReverseStaticSequenceList(StaticSequenceList *list) {
 }
 
 // 删除所有指定值元素，返回出现次数
-int DeleteElemStaticSequenceList(StaticSequenceList *list, ElemType elem){
+int DeleteElemStaticSequenceList(StaticSequenceList *list, ElemType elem) {
     // 删除指定值后索引偏移值，即出现次数
-    int dev=0;
-    for(int i=0;i<list->length;i++){
+    int dev = 0;
+    for (int i = 0; i < list->length; i++) {
         // 如果不等就证明该位置的值要保留
-        if(list->data[i]!=elem){
+        if (list->data[i] != elem) {
             // 如果前面不存在指定值就证明没有要删除的
             // 如果不等于0证明要删除部分元素，从而前移
-            if(dev!=0)
-                list->data[i-dev] = list->data[i];
+            if (dev != 0)
+                list->data[i - dev] = list->data[i];
         }
-        // 如果相等即不需要移动，偏移值自增
-        else{
+            // 如果相等即不需要移动，偏移值自增
+        else {
             dev++;
         }
     }
     // 把偏移量减去即得最后删除后的长度
     list->length -= dev;
     return dev;
+}
+
+// 循环移动，右移为正方向
+void RotateStaticSequenceList(StaticSequenceList *list, int step) {
+    // 新建一个数组
+    ElemType *data = (ElemType *) malloc(sizeof(ElemType) * list->length);
+    // 复制数组值
+    for (int i = 0; i < list->length; i++) {
+        data[i] = list->data[i];
+    }
+    // 移动
+    for (int i = 0; i < list->length; i++) {
+        list->data[(i + step +  list->length) % list->length] = data[i];
+    }
 }
 
