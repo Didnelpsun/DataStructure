@@ -1,5 +1,6 @@
 // 动态顺序表测试
-#include "../header/DynamicSequenceList/operation.h"
+#include "../header/tool.h"
+#include "../header/DynamicSequenceList/DynamicSequenceList.h"
 
 // 测试插入
 void Insert() {
@@ -36,8 +37,23 @@ void Search() {
     SearchDynamicSequenceList(list, 3);
 }
 
+// 测试实现
+void Implement() {
+    DynamicSequenceList list;
+    InitDynamicSequenceList(&list);
+    ElemType elems[5] = {2, 3, 4, 5, 2};
+    InsertDynamicSequenceLists(&list, 0, elems, 5);
+    PrintDynamicSequenceList(list);
+    Print(GetMaxDynamicSequenceList(list));
+    ReverseDynamicSequenceList(&list);
+//    DeleteElemDynamicSequenceList(&list,3);
+//    RotateDynamicSequenceList(&list,-2);
+    PrintDynamicSequenceList(list);
+}
+
 // 总测试
 void DynamicSequenceListTest() {
 //    Insert();
-    Delete();
+//    Delete();
+    Implement();
 }

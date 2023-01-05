@@ -1,3 +1,5 @@
+#include "operation.h"
+
 // 获取最小值，返回对应索引值
 int GetMinStaticSequenceList(StaticSequenceList list) {
     int min = 0;

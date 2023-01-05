@@ -1,7 +1,6 @@
 // 静态顺序表测试
 #include "../header/tool.h"
-#include "../header/StaticSequenceList/operation.h"
-#include "../header/StaticSequenceList/implement.h"
+#include "../header/StaticSequenceList/StaticSequenceList.h"
 
 // 测试插入
 void Insert() {
