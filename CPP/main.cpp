@@ -1,6 +1,7 @@
 #include <iostream>
+#include "./Linear/SequenceList.cpp"
 
 int main() {
-    std::cout << "Hello, World!" << std::endl;
+    SequenceList();
     return 0;
 }
