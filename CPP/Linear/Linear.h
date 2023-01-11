@@ -11,27 +11,44 @@ public:
 
     virtual ElemType GetData(unsigned int index) = 0;
 
-    [[nodiscard]] unsigned int GetLength() const;
+    unsigned int GetLength();
 
     // Setter
     virtual bool SetData(ElemType *data) = 0;
 
-    virtual bool SetData(unsigned int index, ElemType data) = 0;
+    virtual bool SetData(ElemType data, unsigned int index) = 0;
 
     bool SetLength();
 
     bool SetLength(unsigned int length);
 
-    virtual void printData() = 0;
+    // 成员方法
+    virtual void PrintData() = 0;
 
-    virtual bool Insert() = 0;
+    virtual bool Insert(ElemType elem) = 0;
+
+    virtual bool Insert(ElemType elem, unsigned int index) = 0;
+
+    virtual bool Insert(ElemType *elems, unsigned int index, unsigned int size) = 0;
+
+    virtual ElemType Delete() = 0;
 
     virtual ElemType Delete(unsigned int index) = 0;
 
-    virtual ElemType* Delete(unsigned int start, unsigned int end) = 0;
+    virtual ElemType* Delete(unsigned int index, unsigned int length) = 0;
+
+    virtual int Search(ElemType elem) = 0;
+
+    virtual unsigned int Min() = 0;
+
+    virtual unsigned int Max() = 0;
+
+    virtual void Reverse() = 0;
+
+    virtual unsigned int DeleteElem(ElemType elem) = 0;
 };
 
-unsigned int Linear::GetLength() const {
+unsigned int Linear::GetLength() {
     return this->_length;
 }
 

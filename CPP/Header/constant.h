@@ -1,6 +1,7 @@
 // 常量值
-#include "stdlib.h"
-#include "stdio.h"
+#include <cstdlib>
+#include <cstdio>
+#include "iostream"
 // 最大长度
 #define MAX_SIZE 5
 // 初始长度
