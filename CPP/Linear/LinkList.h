@@ -10,12 +10,12 @@ public:
     // 构造函数
     LinkList();
 
-    explicit LinkList(LinkListNode *data);
+    explicit LinkList(LinkListNode *node);
 
     // Getter
     LinkListNode *GetNode();
 
-    LinkListNode GetNode(unsigned int index);
+    LinkListNode *GetNode(unsigned int index);
 
     ElemType GetData(unsigned int index) override;
 
@@ -39,21 +39,23 @@ LinkListNode *LinkList::GetNode() {
     return this->_node;
 }
 
-LinkListNode LinkList::GetNode(unsigned int index) {
+LinkListNode *LinkList::GetNode(unsigned int index) {
+    if (index >= this->GetLength()) {
+        std::cout << "[LinkList::GetNode]:index " << index << " > length " << this->GetLength() << std::endl;
+        return nullptr;
+    }
     unsigned int i = 0;
     LinkListNode *node = this->GetNode();
     while (node->GetNext() != nullptr) {
         if (i == index)
-            return (LinkListNode &&) node;
+            return node;
         node = node->GetNext();
         i++;
     }
-    std::cout << "[LinkList::GetNode]:" << "can't find node index = " << index << std::endl;
-    return {};
 }
 
 ElemType LinkList::GetData(unsigned int index) {
-    return this->GetNode(index).GetData();
+    return this->GetNode(index)->GetData();
 }
 
 bool LinkList::SetNode(LinkListNode *node) {
@@ -66,11 +68,35 @@ bool LinkList::SetNode(LinkListNode *node) {
 }
 
 bool LinkList::SetNode(LinkListNode node, unsigned int index) {
+    LinkListNode *pre = nullptr;
+    LinkListNode *current = this->GetNode();
+    if (index >= this->GetLength()) {
+        std::cout << "[LinkList::SetNode]:index " << index << " > length " << this->GetLength() << std::endl;
+        return false;
+    }
+    unsigned int i = 0;
+    while (current->GetNext() != nullptr) {
+        if (i == index) {
+            if (pre != nullptr)
+                pre->SetNext(&node);
+            node.SetNext(current->GetNext());
+            return true;
+        }
+        pre = current;
+        current = current->GetNext();
+        i++;
+    }
     return false;
 }
 
 bool LinkList::SetData(ElemType data, unsigned int index) {
-    return false;
+    LinkListNode *node = this->GetNode(index);
+    if (node == nullptr) {
+        std::cout << "[LinkList::SetData]:index " << index << " > length " << this->GetLength() << std::endl;
+        return false;
+    }
+    node->SetData(data);
+    return true;
 }
 
 
