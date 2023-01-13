@@ -17,6 +17,8 @@ public:
 
     LinkListNode *GetNode(unsigned int index);
 
+    ElemType *GetData() override;
+
     ElemType GetData(unsigned int index) override;
 
     // Setter
@@ -24,7 +26,22 @@ public:
 
     bool SetNode(LinkListNode node, unsigned int index);
 
+    bool SetData(ElemType *data) override;
+
     bool SetData(ElemType data, unsigned int index) override;
+
+    // 成员函数
+    void PrintLinkList();
+
+    int Search(ElemType elem) override;
+
+    unsigned int Min() override;
+
+    unsigned int Max() override;
+
+    void Reverse() override;
+
+    unsigned int DeleteElem(ElemType elem) override;
 };
 
 LinkList::LinkList() {
@@ -52,6 +69,14 @@ LinkListNode *LinkList::GetNode(unsigned int index) {
         node = node->GetNext();
         i++;
     }
+    return nullptr;
+}
+
+ElemType *LinkList::GetData() {
+    auto *data = new ElemType[this->GetLength()];
+    for (int i = 0; i < this->GetLength(); i++)
+        data[i] = this->GetData(i);
+    return data;
 }
 
 ElemType LinkList::GetData(unsigned int index) {
@@ -89,6 +114,14 @@ bool LinkList::SetNode(LinkListNode node, unsigned int index) {
     return false;
 }
 
+bool LinkList::SetData(ElemType *data) {
+    for (int i = 0; i < this->GetLength(); i++) {
+        if(!this->SetData(data[i], i))
+            return false;
+    }
+    return true;
+}
+
 bool LinkList::SetData(ElemType data, unsigned int index) {
     LinkListNode *node = this->GetNode(index);
     if (node == nullptr) {
@@ -97,6 +130,31 @@ bool LinkList::SetData(ElemType data, unsigned int index) {
     }
     node->SetData(data);
     return true;
+}
+
+void LinkList::PrintLinkList() {
+    this->PrintData();
+    std::cout << "length:" << this->GetLength() << std::endl;
+}
+
+int LinkList::Search(ElemType elem) {
+    return 0;
+}
+
+unsigned int LinkList::Min() {
+    return 0;
+}
+
+unsigned int LinkList::Max() {
+    return 0;
+}
+
+void LinkList::Reverse() {
+
+}
+
+unsigned int LinkList::DeleteElem(ElemType elem) {
+    return 0;
 }
 
 

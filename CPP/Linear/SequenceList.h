@@ -5,7 +5,7 @@ class SequenceList : public Linear {
 private:
     // 私有成员
     ElemType *_data{};
-    unsigned int _maxSize{};
+    unsigned int _max_size{};
 public:
     // 构造函数
     SequenceList();
@@ -27,25 +27,13 @@ public:
     bool SetMaxSize(unsigned int maxSize);
 
     // 成员函数
-    void PrintData() override;
-
     void PrintSequenceList();
 
     bool Increase();
 
     bool Increase(unsigned int size);
 
-    bool Insert(ElemType elem) override;
-
-    bool Insert(ElemType elem, unsigned int index) override;
-
-    bool Insert(ElemType *elems, unsigned int index, unsigned int size) override;
-
-    ElemType Delete() override;
-
-    ElemType Delete(unsigned int index) override;
-
-    ElemType *Delete(unsigned int index, unsigned int length) override;
+    bool Insert(ElemType *elems, unsigned int index, unsigned int size);
 
     int Search(ElemType elem) override;
 
@@ -62,8 +50,7 @@ public:
 
 SequenceList::SequenceList() {
     this->_data = new ElemType[MAX_SIZE];
-    this->_maxSize = MAX_SIZE;
-    this->SetLength(0);
+    this->_max_size = MAX_SIZE;
 }
 
 SequenceList::SequenceList(unsigned int maxSize) {
@@ -82,7 +69,7 @@ ElemType SequenceList::GetData(unsigned int index) {
 }
 
 unsigned int SequenceList::GetMaxSize() {
-    return this->_maxSize;
+    return this->_max_size;
 }
 
 bool SequenceList::SetData(ElemType *data) {
@@ -104,18 +91,8 @@ bool SequenceList::SetData(ElemType data, unsigned int index) {
 }
 
 bool SequenceList::SetMaxSize(unsigned int maxSize) {
-    this->_maxSize = maxSize;
+    this->_max_size = maxSize;
     return true;
-}
-
-void SequenceList::PrintData() {
-    std::cout << "data:[";
-    for (int i = 0; i < this->GetLength(); i++) {
-        std::cout << this->GetData(i);
-        if (i < this->GetLength() - 1)
-            std::cout << ",";
-    }
-    std::cout << "]" << std::endl;
 }
 
 void SequenceList::PrintSequenceList() {
@@ -138,60 +115,11 @@ bool SequenceList::Increase(unsigned int size) {
     return true;
 }
 
-bool SequenceList::Insert(ElemType elem) {
-    return this->Insert(elem, this->GetLength());
-}
-
-bool SequenceList::Insert(ElemType elem, unsigned int index) {
-    auto *elems = new ElemType[1];
-    return this->Insert(elems, index, 1);
-}
-
 bool SequenceList::Insert(ElemType *elems, unsigned int index, unsigned int size) {
-    if (index > this->GetLength()) {
-        std::cout << "[SequenceList::Insert]:index " << index << " > max size " << this->GetLength() << std::endl;
-        return false;
-    }
     if (this->GetLength() + size > this->GetMaxSize())
         if (!this->Increase(size))
             return false;
-    // 这一步是关键，因为SetData会根据length值限定是否能修改data，所以调用SetData前必须更新length值
-    this->SetLength(this->GetLength() + size);
-    // 后移
-    if (index != this->GetLength()) {
-        for (unsigned int i = this->GetLength() - 1; i >= index + size; i--)
-            this->SetData(this->GetData(i - size), i);
-    }
-    // 赋值
-    for (unsigned int i = 0; i < size; i++)
-        this->SetData(elems[i], index + i);
-    return true;
-}
-
-ElemType SequenceList::Delete() {
-    ElemType *elems = this->Delete(this->GetLength() - 1, 1);
-    return elems == nullptr ? (ElemType) NULL : elems[0];
-}
-
-ElemType SequenceList::Delete(unsigned int index) {
-    ElemType *elems = this->Delete(index, 1);
-    return elems == nullptr ? (ElemType) NULL : elems[0];
-}
-
-ElemType *SequenceList::Delete(unsigned int index, unsigned int length) {
-    auto *result = new ElemType[length];
-    if (index + length > this->GetLength()) {
-        std::cout << "[SequenceList::Delete]:data " << index + length << " > length" << this->GetLength() << std::endl;
-        return nullptr;
-    }
-    // 赋值
-    for (unsigned int i = 0; i < length; i++)
-        result[i] = this->GetData(i + index);
-    // 移动
-    for (unsigned int i = index; i < this->GetLength() - length; i++)
-        this->SetData(this->GetData(i + length), i);
-    this->SetLength(this->GetLength() - length);
-    return result;
+    return Linear::Insert(elems, index, size);
 }
 
 int SequenceList::Search(ElemType elem) {
@@ -239,7 +167,7 @@ unsigned int SequenceList::DeleteElem(ElemType elem) {
             // 如果前面不存在指定值就证明没有要删除的
             // 如果不等于0证明要删除部分元素，从而前移
             if (dev != 0)
-                this->SetData(this->GetData(i), i-dev);
+                this->SetData(this->GetData(i), i - dev);
         }
             // 如果相等即不需要移动，偏移值自增
         else {
