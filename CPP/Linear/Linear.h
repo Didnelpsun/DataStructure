@@ -26,29 +26,31 @@ public:
     bool SetLength(unsigned int length);
 
     // 成员方法
-    void PrintData();
+    virtual void PrintData();
 
-    bool Insert(ElemType elem);
+    virtual bool Insert(ElemType elem);
 
-    bool Insert(ElemType elem, unsigned int index);
+    virtual bool Insert(ElemType elem, unsigned int index);
 
-    bool Insert(ElemType *elems, unsigned int index, unsigned int size);
+    virtual bool Insert(ElemType *elems, unsigned int index, unsigned int size);
 
-    ElemType Delete();
+    virtual ElemType Delete();
 
-    ElemType Delete(unsigned int index);
+    virtual ElemType Delete(unsigned int index);
 
-    ElemType *Delete(unsigned int index, unsigned int length);
+    virtual ElemType *Delete(unsigned int index, unsigned int length);
 
-    int Search(ElemType elem);
+    virtual unsigned int DeleteElem(ElemType elem);
 
-    unsigned int Min();
+    virtual int Search(ElemType elem);
 
-    unsigned int Max();
+    virtual unsigned int Min();
 
-    void Reverse();
+    virtual unsigned int Max();
 
-    unsigned int DeleteElem(ElemType elem);
+    virtual void Reverse();
+
+    virtual void Rotate(int step) = 0;
 };
 
 Linear::Linear() {
@@ -90,7 +92,7 @@ bool Linear::Insert(ElemType elem, unsigned int index) {
 
 bool Linear::Insert(ElemType *elems, unsigned int index, unsigned int size) {
     if (index > this->GetLength()) {
-        std::cout << "[Linear::Insert]:index " << index << " > max size " << this->GetLength() << std::endl;
+        std::cout << "[Linear::Insert]:index " << index << " > length " << this->GetLength() << std::endl;
         return false;
     }
     // 这一步是关键，因为SetData会根据length值限定是否能修改data，所以调用SetData前必须更新length值
@@ -132,23 +134,60 @@ ElemType *Linear::Delete(unsigned int index, unsigned int length) {
     return result;
 }
 
+unsigned int Linear::DeleteElem(ElemType elem) {
+    // 删除指定值后索引偏移值，即出现次数
+    int dev = 0;
+    for (int i = 0; i < this->GetLength(); i++) {
+        // 如果不等就证明该位置的值要保留
+        if (this->GetData(i) != elem) {
+            // 如果前面不存在指定值就证明没有要删除的
+            // 如果不等于0证明要删除部分元素，从而前移
+            if (dev != 0)
+                this->SetData(this->GetData(i), i - dev);
+        }
+            // 如果相等即不需要移动，偏移值自增
+        else {
+            dev++;
+        }
+    }
+    // 把偏移量减去即得最后删除后的长度
+    this->SetLength(this->GetLength() - dev);
+    return dev;
+}
+
 int Linear::Search(ElemType elem) {
-    return 0;
+    for (int i = 0; i < this->GetLength(); i++) {
+        if (this->GetData(i) == elem)
+            return i;
+    }
+    std::cout << "[Linear::Search]:can't find elem value = " << elem << std::endl;
+    return -1;
 }
 
 unsigned int Linear::Min() {
-    return 0;
+    int min = 0;
+    for (int i = 0; i < this->GetLength(); i++) {
+        if (this->GetData(min) > this->GetData(i))
+            min = i;
+    }
+    return min;
 }
 
 unsigned int Linear::Max() {
-    return 0;
+    int max = 0;
+    for (int i = 0; i < this->GetLength(); i++) {
+        if (this->GetData(max) < this->GetData(i))
+            max = i;
+    }
+    return max;
 }
 
 void Linear::Reverse() {
-
-}
-
-unsigned int Linear::DeleteElem(ElemType elem) {
-    return 0;
+    ElemType temp;
+    for (int i = 0; i < this->GetLength() / 2; i++) {
+        temp = this->GetData(i);
+        this->SetData(this->GetData(this->GetLength() - i - 1), i);
+        this->SetData(temp, this->GetLength() - i - 1);
+    }
 }
 

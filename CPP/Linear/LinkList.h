@@ -33,15 +33,7 @@ public:
     // 成员函数
     void PrintLinkList();
 
-    int Search(ElemType elem) override;
-
-    unsigned int Min() override;
-
-    unsigned int Max() override;
-
-    void Reverse() override;
-
-    unsigned int DeleteElem(ElemType elem) override;
+    void Rotate(int step) override;
 };
 
 LinkList::LinkList() {
@@ -95,12 +87,12 @@ bool LinkList::SetNode(LinkListNode *node) {
 bool LinkList::SetNode(LinkListNode node, unsigned int index) {
     LinkListNode *pre = nullptr;
     LinkListNode *current = this->GetNode();
-    if (index >= this->GetLength()) {
+    if (index > this->GetLength()) {
         std::cout << "[LinkList::SetNode]:index " << index << " > length " << this->GetLength() << std::endl;
         return false;
     }
     unsigned int i = 0;
-    while (current->GetNext() != nullptr) {
+    while (current != nullptr) {
         if (i == index) {
             if (pre != nullptr)
                 pre->SetNext(&node);
@@ -137,26 +129,6 @@ void LinkList::PrintLinkList() {
     std::cout << "length:" << this->GetLength() << std::endl;
 }
 
-int LinkList::Search(ElemType elem) {
-    return 0;
-}
-
-unsigned int LinkList::Min() {
-    return 0;
-}
-
-unsigned int LinkList::Max() {
-    return 0;
-}
-
-void LinkList::Reverse() {
+void LinkList::Rotate(int step) {
 
 }
-
-unsigned int LinkList::DeleteElem(ElemType elem) {
-    return 0;
-}
-
-
-
-

@@ -33,19 +33,9 @@ public:
 
     bool Increase(unsigned int size);
 
-    bool Insert(ElemType *elems, unsigned int index, unsigned int size);
+    bool Insert(ElemType *elems, unsigned int index, unsigned int size) override;
 
-    int Search(ElemType elem) override;
-
-    unsigned int Min() override;
-
-    unsigned int Max() override;
-
-    void Reverse() override;
-
-    unsigned int DeleteElem(ElemType elem) override;
-
-    virtual void Rotate(int step);
+    void Rotate(int step) override;
 };
 
 SequenceList::SequenceList() {
@@ -120,63 +110,6 @@ bool SequenceList::Insert(ElemType *elems, unsigned int index, unsigned int size
         if (!this->Increase(size))
             return false;
     return Linear::Insert(elems, index, size);
-}
-
-int SequenceList::Search(ElemType elem) {
-    for (int i = 0; i < this->GetLength(); i++) {
-        if (this->GetData(i) == elem)
-            return i;
-    }
-    std::cout << "[SequenceList::Search]:can't find elem value = " << elem << std::endl;
-    return -1;
-}
-
-unsigned int SequenceList::Min() {
-    int min = 0;
-    for (int i = 0; i < this->GetLength(); i++) {
-        if (this->GetData(min) > this->GetData(i))
-            min = i;
-    }
-    return min;
-}
-
-unsigned int SequenceList::Max() {
-    int max = 0;
-    for (int i = 0; i < this->GetLength(); i++) {
-        if (this->GetData(max) < this->GetData(i))
-            max = i;
-    }
-    return max;
-}
-
-void SequenceList::Reverse() {
-    ElemType temp;
-    for (int i = 0; i < this->GetLength() / 2; i++) {
-        temp = this->GetData(i);
-        this->SetData(this->GetData(this->GetLength() - i - 1), i);
-        this->SetData(temp, this->GetLength() - i - 1);
-    }
-}
-
-unsigned int SequenceList::DeleteElem(ElemType elem) {
-    // 删除指定值后索引偏移值，即出现次数
-    int dev = 0;
-    for (int i = 0; i < this->GetLength(); i++) {
-        // 如果不等就证明该位置的值要保留
-        if (this->GetData(i) != elem) {
-            // 如果前面不存在指定值就证明没有要删除的
-            // 如果不等于0证明要删除部分元素，从而前移
-            if (dev != 0)
-                this->SetData(this->GetData(i), i - dev);
-        }
-            // 如果相等即不需要移动，偏移值自增
-        else {
-            dev++;
-        }
-    }
-    // 把偏移量减去即得最后删除后的长度
-    this->SetLength(this->GetLength() - dev);
-    return dev;
 }
 
 void SequenceList::Rotate(int step) {

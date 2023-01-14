@@ -4,8 +4,8 @@
 class LinkListNode {
 // 私有成员
 private:
-    ElemType _data;
-    LinkListNode *_next;
+    ElemType _data{};
+    LinkListNode* _next{};
 public:
     // 构造方法
     LinkListNode();
@@ -26,6 +26,7 @@ public:
 };
 
 LinkListNode::LinkListNode() {
+    this->_data = NULL;
     this->_next = nullptr;
 }
 
