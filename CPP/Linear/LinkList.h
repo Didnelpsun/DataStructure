@@ -5,7 +5,7 @@
 class LinkList : public Linear {
 // 私有成员
 private:
-    LinkListNode *_node{};
+    LinkListNode *_node = nullptr;
 public:
     // 构造函数
     LinkList();
@@ -36,9 +36,7 @@ public:
     void Rotate(int step) override;
 };
 
-LinkList::LinkList() {
-    this->_node = nullptr;
-}
+LinkList::LinkList() = default;
 
 LinkList::LinkList(LinkListNode *node) {
     this->_node = node;
@@ -55,13 +53,34 @@ LinkListNode *LinkList::GetNode(unsigned int index) {
     }
     unsigned int i = 0;
     LinkListNode *node = this->GetNode();
-    while (node->GetNext() != nullptr) {
+    if (node != nullptr) {
+        while (node->GetNext() != nullptr) {
+            if (i == index)
+                return node;
+            node = node->GetNext();
+            i++;
+        }
         if (i == index)
             return node;
         node = node->GetNext();
         i++;
     }
-    return nullptr;
+    // 如果i<length，则证明需要插入结点
+    LinkListNode* new_node;
+    while(i<this->GetLength()){
+        if (this->GetNode() == nullptr) {
+            this->SetNode(new LinkListNode());
+            node = this->GetNode();
+        }
+        else {
+            node->SetNext(new LinkListNode());
+            node = node->GetNext();
+        }
+        if (i == index)
+            new_node = node;
+        i++;
+    }
+    return new_node;
 }
 
 ElemType *LinkList::GetData() {

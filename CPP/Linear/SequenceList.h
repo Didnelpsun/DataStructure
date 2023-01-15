@@ -4,8 +4,8 @@
 class SequenceList : public Linear {
 private:
     // 私有成员
-    ElemType *_data{};
-    unsigned int _max_size{};
+    ElemType *_data = new ElemType[MAX_SIZE];
+    unsigned int _max_size = MAX_SIZE;
 public:
     // 构造函数
     SequenceList();
@@ -38,10 +38,7 @@ public:
     void Rotate(int step) override;
 };
 
-SequenceList::SequenceList() {
-    this->_data = new ElemType[MAX_SIZE];
-    this->_max_size = MAX_SIZE;
-}
+SequenceList::SequenceList() = default;
 
 SequenceList::SequenceList(unsigned int maxSize) {
     this->_data = new ElemType[maxSize];
@@ -121,5 +118,4 @@ void SequenceList::Rotate(int step) {
     }
     this->SetData(data);
 }
-
 

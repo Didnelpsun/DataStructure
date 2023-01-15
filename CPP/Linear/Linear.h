@@ -4,11 +4,8 @@
 class Linear {
 private:
     // 私有成员
-    unsigned int _length{};
+    unsigned int _length = 0;
 public:
-    // 构造函数
-    Linear();
-
     // Getter
     virtual ElemType *GetData() = 0;
 
@@ -52,10 +49,6 @@ public:
 
     virtual void Rotate(int step) = 0;
 };
-
-Linear::Linear() {
-    this->_length = 0;
-}
 
 unsigned int Linear::GetLength() {
     return this->_length;

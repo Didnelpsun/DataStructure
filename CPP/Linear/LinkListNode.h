@@ -4,8 +4,8 @@
 class LinkListNode {
 // 私有成员
 private:
-    ElemType _data{};
-    LinkListNode* _next{};
+    ElemType _data = (ElemType) NULL;
+    LinkListNode *_next = nullptr;
 public:
     // 构造方法
     LinkListNode();
@@ -25,10 +25,7 @@ public:
     bool SetNext(LinkListNode *next);
 };
 
-LinkListNode::LinkListNode() {
-    this->_data = NULL;
-    this->_next = nullptr;
-}
+LinkListNode::LinkListNode() = default;
 
 LinkListNode::LinkListNode(ElemType data) {
     this->_data = data;
@@ -41,10 +38,18 @@ LinkListNode::LinkListNode(ElemType data, LinkListNode *next) {
 }
 
 ElemType LinkListNode::GetData() {
+    if (this == nullptr) {
+        std::cout << "[LinkListNode::GetData]:this is null" << std::endl;
+        return NULL;
+    }
     return this->_data;
 }
 
 LinkListNode *LinkListNode::GetNext() {
+    if (this == nullptr) {
+        std::cout << "[LinkListNode::GetData]:this is null" << std::endl;
+        return nullptr;
+    }
     return this->_next;
 }
 
@@ -54,11 +59,6 @@ bool LinkListNode::SetData(ElemType data) {
 }
 
 bool LinkListNode::SetNext(LinkListNode *next) {
-
-    if (next != nullptr) {
-        this->_next = next;
-        return true;
-    }
-    std::cout << "[LinkListNode::SetNext]:next is null" << std::endl;
-    return false;
+    this->_next = next;
+    return true;
 }
