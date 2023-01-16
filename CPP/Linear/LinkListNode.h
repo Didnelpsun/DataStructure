@@ -47,18 +47,26 @@ ElemType LinkListNode::GetData() {
 
 LinkListNode *LinkListNode::GetNext() {
     if (this == nullptr) {
-        std::cout << "[LinkListNode::GetData]:this is null" << std::endl;
+        std::cout << "[LinkListNode::GetNext]:this is null" << std::endl;
         return nullptr;
     }
     return this->_next;
 }
 
 bool LinkListNode::SetData(ElemType data) {
+    if (this == nullptr) {
+        std::cout << "[LinkListNode::SetData]:this is null" << std::endl;
+        return false;
+    }
     this->_data = data;
     return true;
 }
 
 bool LinkListNode::SetNext(LinkListNode *next) {
+    if (this == nullptr) {
+        std::cout << "[LinkListNode::SetNext]:this is null" << std::endl;
+        return false;
+    }
     this->_next = next;
     return true;
 }
